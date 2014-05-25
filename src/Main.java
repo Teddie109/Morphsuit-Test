@@ -3,6 +3,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -25,12 +26,63 @@ public class Main {
 		
 		compileMasterList(totals, HSorders);
 		
-		Iterator<Integer> iterator = HSorders.values().iterator();
+		compareOrderLists(HSorders, orders);
 		
-		while (iterator.hasNext()) {
-			System.out.println(iterator.next());
-		}
+//		Iterator<Integer> iterator = HSorders.values().iterator();
+//		
+//		while (iterator.hasNext()) {
+//			System.out.println(iterator.next());
+//		}
 
+	}
+	
+	private static void compareOrderLists(HashMap<Integer, Integer> HSorders, File[] orders) {
+		
+		try {
+			BufferedWriter totalsonly = new BufferedWriter(new FileWriter("TotalsOnly.txt"));
+			BufferedWriter HSordersonly = new BufferedWriter(new FileWriter("HSordersOnly.txt"));
+			BufferedWriter both = new BufferedWriter(new FileWriter("Both.txt"));
+			
+			Scanner csvscanner = null;
+		
+			for (int i = 0; i < orders.length; i++) {	
+			
+				csvscanner = new Scanner(orders[0]);
+				csvscanner.next();
+				csvscanner.next();
+				
+				while (csvscanner.hasNext()) {
+					int next = csvscanner.nextInt();
+					
+					if (HSorders.containsKey(next)) {
+						both.write(next + "\n");
+						HSorders.remove(next);
+					}
+					else {
+						HSordersonly.write(next + "\n");
+					}
+				}
+				
+			}
+			
+			Iterator<Integer> iterator = HSorders.values().iterator();
+			
+			while (iterator.hasNext()) {
+				totalsonly.write(iterator.next() + "\n");
+			}
+			
+			csvscanner.close();
+			both.close();
+			HSordersonly.close();
+			totalsonly.close();
+		}
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 	}
 	
 	private static void compileMasterList(File total, HashMap<Integer, Integer> HSorders) {
