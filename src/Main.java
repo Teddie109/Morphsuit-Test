@@ -38,6 +38,8 @@ public class Main {
 	
 	private static void compareOrderLists(HashMap<Integer, Integer> HSorders, File[] orders) {
 		
+		System.out.println("Comparing lists. There are: " + HSorders.size() + " Orders in the totals file");
+		
 		try {
 			BufferedWriter totalsonly = new BufferedWriter(new FileWriter("TotalsOnly.txt"));
 			BufferedWriter HSordersonly = new BufferedWriter(new FileWriter("HSordersOnly.txt"));
@@ -47,7 +49,8 @@ public class Main {
 		
 			for (int i = 0; i < orders.length; i++) {	
 			
-				csvscanner = new Scanner(orders[0]);
+				System.out.println("Comparing List: " + orders[i].getName());
+				csvscanner = new Scanner(orders[i]);
 				csvscanner.next();
 				csvscanner.next();
 				
@@ -55,11 +58,11 @@ public class Main {
 					int next = csvscanner.nextInt();
 					
 					if (HSorders.containsKey(next)) {
-						both.write(next + "\n");
+						both.write(next + "\r\n");
 						HSorders.remove(next);
 					}
 					else {
-						HSordersonly.write(next + "\n");
+						HSordersonly.write(next + "\r\n");
 					}
 				}
 				
@@ -68,7 +71,7 @@ public class Main {
 			Iterator<Integer> iterator = HSorders.values().iterator();
 			
 			while (iterator.hasNext()) {
-				totalsonly.write(iterator.next() + "\n");
+				totalsonly.write(iterator.next() + "\r\n");
 			}
 			
 			csvscanner.close();
@@ -82,6 +85,8 @@ public class Main {
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
+		System.out.println("Finished comparisons. " + HSorders.size() + " orders were not found in any list");
 		
 	}
 	
