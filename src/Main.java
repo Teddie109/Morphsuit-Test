@@ -22,13 +22,15 @@ public class Main {
 			orders[i] = new File("CSV/hurricane_sandy_orders_" + i + ".csv");
 		}
 		
-		HashMap<Integer, Integer> HSorders = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> totalorders = new HashMap<Integer, Integer>();
 		
-		compileMasterList(totals, HSorders);
+		compileMasterList(totals, totalorders);
 		
-		compareOrderLists(HSorders, orders);
+//		compileOrders(orders, totalorders);
 		
-//		Iterator<Integer> iterator = HSorders.values().iterator();
+		compareOrderLists(totalorders, orders);
+		
+//		Iterator<Integer> iterator = totalorders.values().iterator();
 //		
 //		while (iterator.hasNext()) {
 //			System.out.println(iterator.next());
@@ -36,9 +38,34 @@ public class Main {
 
 	}
 	
-	private static void compareOrderLists(HashMap<Integer, Integer> HSorders, File[] orders) {
+//	private static void compileOrders( File[] orders, HashMap<Integer, Integer> totalorders) {
+//		
+//		HashMap<Integer, Integer> HSorders = new HashMap<Integer, Integer>();
+//		
+//		try {
+//			for (int i = 0; i < orders.length; i++) {
+//				Scanner csvscanner = new Scanner(orders[i]);
+//				csvscanner.next();
+//				csvscanner.next();
+//				
+//				while (csvscanner.hasNext()) {
+//					int next = csvscanner.nextInt();
+//					HSorders.put(next, next);
+//				}
+//				csvscanner.close();
+//			}
+//		}
+//		catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		System.out.println("There are: " + HSorders.size() + " orders in the hurricane sandy files");
+//
+//	}
+	
+	private static void compareOrderLists(HashMap<Integer, Integer> totalorders, File[] orders) {
 		
-		System.out.println("Comparing lists. There are: " + HSorders.size() + " Orders in the totals file");
+		System.out.println("Comparing lists. There are: " + totalorders.size() + " Orders in the totals file");
 		
 		try {
 			BufferedWriter totalsonly = new BufferedWriter(new FileWriter("TotalsOnly.txt"));
@@ -57,9 +84,9 @@ public class Main {
 				while (csvscanner.hasNext()) {
 					int next = csvscanner.nextInt();
 					
-					if (HSorders.containsKey(next)) {
+					if (totalorders.containsKey(next)) {
 						both.write(next + "\r\n");
-						HSorders.remove(next);
+						totalorders.remove(next);
 					}
 					else {
 						HSordersonly.write(next + "\r\n");
@@ -68,7 +95,7 @@ public class Main {
 				
 			}
 			
-			Iterator<Integer> iterator = HSorders.values().iterator();
+			Iterator<Integer> iterator = totalorders.values().iterator();
 			
 			while (iterator.hasNext()) {
 				totalsonly.write(iterator.next() + "\r\n");
@@ -86,7 +113,7 @@ public class Main {
 			e1.printStackTrace();
 		}
 		
-		System.out.println("Finished comparisons. " + HSorders.size() + " orders were not found in any list");
+		System.out.println("Finished comparisons. " + totalorders.size() + " orders were not found in any list");
 		
 	}
 	
