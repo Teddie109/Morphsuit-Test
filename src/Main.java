@@ -65,14 +65,14 @@ public class Main {
 	
 	private static void compareOrderLists(HashMap<Integer, Integer> totalorders, File[] orders) {
 		
-		System.out.println("Comparing lists. There are: " + totalorders.size() + " Orders in the totals file");
-		
 		try {
 			BufferedWriter totalsonly = new BufferedWriter(new FileWriter("TotalsOnly.txt"));
 			BufferedWriter HSordersonly = new BufferedWriter(new FileWriter("HSordersOnly.txt"));
 			BufferedWriter both = new BufferedWriter(new FileWriter("Both.txt"));
 			
 			Scanner csvscanner = null;
+			
+			System.out.println("Comparing lists. There are: " + totalorders.size() + " Orders in the totals file");
 		
 			for (int i = 0; i < orders.length; i++) {	
 			
@@ -105,15 +105,16 @@ public class Main {
 			both.close();
 			HSordersonly.close();
 			totalsonly.close();
+			
+			System.out.println("Finished comparisons. " + totalorders.size() + " orders were not found in any list");
 		}
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
+			System.out.println("CSV Files not found, make sure they are in sub-directory './CSV'");
 		}
 		catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		System.out.println("Finished comparisons. " + totalorders.size() + " orders were not found in any list");
 		
 	}
 	
@@ -135,6 +136,7 @@ public class Main {
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			System.out.println("CSV Files not found, make sure they are in sub-directory './CSV'");
 		}
 		
 	}
