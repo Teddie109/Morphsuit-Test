@@ -1,4 +1,13 @@
 
+/*
+ * Morphsuit Test
+ * 
+ * @author Thomas Eddie
+ * 
+ * No Setup required, just run 'java Main' with supplied .java and class files. use 'javac Main.java' if no Class file.
+ * CSV files should be in a subdirectory '/CSV'
+ */
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,17 +33,14 @@ public class Main {
 		
 		HashMap<Integer, Integer> totalorders = new HashMap<Integer, Integer>();
 		
+		//Loads totals.csv into HashMap for comparison to HS files
 		compileMasterList(totals, totalorders);
 		
+		//Counts total number of HS orders
 //		compileOrders(orders, totalorders);
 		
+		//Compares HS files to totals.csv and outputs separated lists.
 		compareOrderLists(totalorders, orders);
-		
-//		Iterator<Integer> iterator = totalorders.values().iterator();
-//		
-//		while (iterator.hasNext()) {
-//			System.out.println(iterator.next());
-//		}
 
 	}
 	
@@ -78,6 +84,8 @@ public class Main {
 			
 				System.out.println("Comparing List: " + orders[i].getName());
 				csvscanner = new Scanner(orders[i]);
+				
+				//Skip past csv column headers
 				csvscanner.next();
 				csvscanner.next();
 				
@@ -97,6 +105,7 @@ public class Main {
 			
 			Iterator<Integer> iterator = totalorders.values().iterator();
 			
+			//Any values left in totalorders by this point are present only in totals.csv
 			while (iterator.hasNext()) {
 				totalsonly.write(iterator.next() + "\r\n");
 			}
@@ -124,6 +133,8 @@ public class Main {
 			Scanner csvscanner = new Scanner(total);
 			
 			System.out.println("Reading master list");
+			
+			//Skip past column headers
 			csvscanner.next();
 			csvscanner.next();
 			
